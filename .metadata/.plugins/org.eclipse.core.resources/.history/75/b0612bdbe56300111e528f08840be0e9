@@ -1,0 +1,7 @@
+package com.cjc.laptophub.app.repositary;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepositoryI extends JpaRepository<User, Integer>{
+
+}

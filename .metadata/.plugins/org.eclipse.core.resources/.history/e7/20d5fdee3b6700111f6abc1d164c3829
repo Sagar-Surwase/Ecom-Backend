@@ -1,0 +1,14 @@
+package com.cjc.laptophub.app.serviceI;
+
+import java.util.List;
+
+import com.cjc.laptophub.app.model.Laptop;
+
+public interface LaptopServiceI 
+{
+
+	List<Laptop> getCategorywiseLaptop(String cname);
+
+	
+
+}

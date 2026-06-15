@@ -1,0 +1,5 @@
+package com.cjc.laptophub.app.repositary;
+
+public interface UserRepositoryI {
+
+}

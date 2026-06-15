@@ -1,0 +1,10 @@
+package com.cjc.laptophub.app.service;
+
+import com.cjc.laptophub.app.model.User;
+
+public interface UserServiceI 
+{
+
+	public User getUserData(int id);
+
+}

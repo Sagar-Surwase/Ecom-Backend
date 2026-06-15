@@ -1,0 +1,80 @@
+package com.cjc.laptophub.app.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.cjc.laptophub.app.model.Laptop;
+import com.cjc.laptophub.app.serviceI.LaptopServiceI;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/product")
+public class LaptopController 
+{
+	
+	@Autowired
+	LaptopServiceI lsi;
+		
+	
+	@GetMapping("/category/{cname}")
+	public ResponseEntity<?> getCategorywiseLaptop(@PathVariable("cname") String cname )
+	{
+		List<Laptop> allCategoriesedLaptop = lsi.getCategorywiseLaptop(cname);
+		
+		return new ResponseEntity<>(allCategoriesedLaptop, HttpStatus.OK);  
+	}
+	
+	
+	@PostMapping("/laptop")
+	public ResponseEntity<?> saveLaptop(@RequestBody Laptop laptop)
+	{
+		Laptop dbLaptop = lsi.saveLaptop(laptop);
+		
+		return new ResponseEntity(dbLaptop, HttpStatus.CREATED);
+	}
+	
+	
+	@PutMapping("/updateLaptop/{lId}")
+	public ResponseEntity<?> updateLaptop(@PathVariable int lId, @RequestBody Laptop laptop)
+	{
+		Laptop updatedLaptop = lsi.updateLaptop(lId, laptop);
+		
+		return new ResponseEntity<>(updatedLaptop, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/deleteLaptop/{lId}")
+	public ResponseEntity<?> deleteLaptop(@PathVariable int lId)
+	{
+		List<Laptop> remainingLaptop = lsi.deleteLaptop(lId);
+		
+		return new ResponseEntity<>(remainingLaptop, HttpStatus.OK);
+	}
+	
+	
+	
+	@GetMapping("/getSingleLaptop/{lId}")
+	public ResponseEntity<?> getSingleLaptop(@PathVariable int lId)
+	{
+		Laptop singleLaptop = lsi.
+		
+		return null;
+	}
+	
+	
+	
+	
+	
+}

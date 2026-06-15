@@ -1,0 +1,24 @@
+package com.cjc.laptophub.app.service;
+
+import java.util.List;
+
+import com.cjc.laptophub.app.model.User;
+
+public interface UserServiceI 
+{
+
+	public User getUserData(int id);
+
+	public User saveUserData(User user);
+
+	public String deleteUserData(int id);
+
+	public User updateUserData(int id, User user);
+
+	public User getUserByEmailAndPassword(String email, String password);
+
+	public List<User> getAllUserData();
+
+	
+
+}
