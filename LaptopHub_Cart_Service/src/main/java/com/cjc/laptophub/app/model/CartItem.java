@@ -18,7 +18,6 @@ public class CartItem
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer cartItemId;
 	
-
     private Integer laptopId;
 
     private Integer quantity;
