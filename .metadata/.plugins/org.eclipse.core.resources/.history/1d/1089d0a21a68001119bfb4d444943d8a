@@ -1,0 +1,11 @@
+package com.cjc.laptophub.app.repositoryI;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.cjc.laptophub.app.model.Cart;
+
+@Repository
+public interface CartRepositoryI extends JpaRepository<Cart, Integer>{
+
+}

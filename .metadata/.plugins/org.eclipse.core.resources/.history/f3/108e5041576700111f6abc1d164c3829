@@ -1,0 +1,91 @@
+package com.cjc.laptophub.app.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cjc.laptophub.app.model.Category;
+import com.cjc.laptophub.app.model.Laptop;
+import com.cjc.laptophub.app.repositoryI.LaptopRepositoryI;
+import com.cjc.laptophub.app.serviceI.LaptopServiceI;
+
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Service
+public class LaptopServiceImpl implements LaptopServiceI
+{
+	
+	@Autowired
+	LaptopRepositoryI lrepo;
+
+	@Override
+	public List<Laptop> getCategorywiseLaptop(String cname) 
+	{
+		return lrepo.findByCname(cname);
+	}
+
+	@Override
+	public Laptop saveLaptop(Laptop laptop) 
+	{
+		Laptop dbLaptop = lrepo.save(laptop);
+		
+		return dbLaptop;
+	}
+
+	@Override
+	public Laptop updateLaptop(int lId, Laptop laptop) 
+	{
+		Optional<Laptop> data = lrepo.findById(lId);
+		
+		if(data!=null) 
+		{
+			Laptop dbLaptop = data.get();
+			
+			dbLaptop.setLname(laptop.getLname());
+			dbLaptop.setPrice(laptop.getPrice());
+			dbLaptop.setStockQuantity(laptop.getStockQuantity());
+			dbLaptop.setStatus(laptop.getStatus());
+			dbLaptop.setProcessor(laptop.getProcessor());
+			dbLaptop.setRam(laptop.getRam());
+			dbLaptop.setStorage(laptop.getStorage());
+			dbLaptop.setGpu(laptop.getGpu());
+			dbLaptop.setDisplaySize(laptop.getDisplaySize());
+			dbLaptop.setDisplayResolution(laptop.getDisplayResolution());
+			dbLaptop.setBattery(laptop.getBattery());
+			dbLaptop.setOperatingSystem(laptop.getOperatingSystem());
+			dbLaptop.setWeight(laptop.getWeight());
+			dbLaptop.setColor(laptop.getColor());
+			dbLaptop.setImageUrl(laptop.getImageUrl());
+			
+			dbLaptop.setCategory(laptop.getCategory());
+			
+			
+			Laptop updatedLaptop = lrepo.save(dbLaptop);
+			
+			return updatedLaptop;
+			
+		}
+		
+		else
+		{
+			return null;
+		}
+		
+	}
+
+	@Override
+	public List<Laptop> deleteLaptop(int lId) 
+	{
+		
+		return null;
+	}
+	
+	
+	
+	
+
+}
+

@@ -1,0 +1,19 @@
+package com.cjc.laptophub.app.repositoryI;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.cjc.laptophub.app.model.Laptop;
+
+public interface LaptopRepositoryI extends JpaRepository<Laptop, Integer>
+{
+
+	public List<Laptop> findByCname(String cname);
+
+	
+	
+	
+	
+
+}

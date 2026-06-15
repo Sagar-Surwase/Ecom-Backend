@@ -1,0 +1,131 @@
+package com.cjc.laptophub.app.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.cjc.laptophub.app.model.Laptop;
+import com.cjc.laptophub.app.serviceI.LaptopServiceI;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/product")
+public class LaptopController 
+{
+	
+	@Autowired
+	LaptopServiceI lsi;
+		
+	
+	@GetMapping("/category/{cname}/laptops")
+	public ResponseEntity<?> getCategorywiseLaptop(@PathVariable String cname )
+	{
+		List<Laptop> allCategoriesedLaptop = lsi.getCategorywiseLaptop(cname);
+		
+		return new ResponseEntity<>(allCategoriesedLaptop, HttpStatus.OK);  
+	}
+	
+	
+	@PostMapping("/saveLaptop")
+	public ResponseEntity<?> saveLaptop(@RequestBody Laptop laptop)
+	{
+		Laptop dbLaptop = lsi.saveLaptop(laptop);
+		
+		return new ResponseEntity<>(dbLaptop, HttpStatus.CREATED);
+	}
+	
+	
+	@PutMapping("/updateLaptop/{lId}")
+	public ResponseEntity<?> updateLaptop(@PathVariable int lId, @RequestBody Laptop laptop)
+	{
+		Laptop updatedLaptop = lsi.updateLaptop(lId, laptop);
+		
+		return new ResponseEntity<>(updatedLaptop, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/deleteLaptop/{lId}")
+	public ResponseEntity<?> deleteLaptop(@PathVariable int lId)
+	{
+		List<Laptop> remainingLaptop = lsi.deleteLaptop(lId);
+		
+		if(remainingLaptop!=null)
+		{
+			return new ResponseEntity<>(remainingLaptop, HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<>("No laptop records found.", HttpStatus.OK);
+		}
+		
+	}
+	
+	
+	
+	@GetMapping("/getSingleLaptop/{lId}")
+	public ResponseEntity<?> getSingleLaptop(@PathVariable int lId)
+	{
+		Laptop singleLaptop = lsi.getSingleLaptop(lId);
+		
+		
+		if(singleLaptop!=null)
+		{
+			return new ResponseEntity<>(singleLaptop, HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<>("No laptop records found.", HttpStatus.OK);
+		}
+
+	}
+	
+	
+	@GetMapping("/searchSingleLaptopByName/{lname}")
+	public ResponseEntity<?> getSingleLaptopByName(@PathVariable String lname)
+	{
+		Laptop singleLaptop = lsi.getSingleLaptopByName(lname);
+		
+		
+		if(singleLaptop!=null)
+		{
+			return new ResponseEntity<>(singleLaptop, HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<>("No laptop records found.", HttpStatus.OK);
+		}
+		
+	}
+	
+	
+	@GetMapping("/viewAllLaptop")
+	public ResponseEntity<?> getSingleLaptop(@PathVariable int lId)
+	{
+		Laptop singleLaptop = lsi.getSingleLaptop(lId);
+		
+		
+		if(singleLaptop!=null)
+		{
+			return new ResponseEntity<>(singleLaptop, HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<>("No laptop records found.", HttpStatus.OK);
+		}
+
+	}
+	
+	
+	
+}

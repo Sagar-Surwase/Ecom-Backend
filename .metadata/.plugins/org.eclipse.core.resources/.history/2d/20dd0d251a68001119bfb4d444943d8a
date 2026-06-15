@@ -1,0 +1,6 @@
+package com.cjc.laptophub.app.serviceI;
+
+public interface CartServiceI 
+{
+
+}

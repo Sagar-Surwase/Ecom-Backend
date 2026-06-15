@@ -1,0 +1,59 @@
+package com.cjc.laptophub.app.model;
+
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class Laptop 
+{
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int lid;
+	private String lname;
+	private double price;
+	private int stockQuantity;
+	private String status;
+	
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private Category category;
+		
+    private String processor;
+    private Integer ram;
+    private Integer storage;
+    private String gpu;
+    private String displaySize;
+    private String displayResolution;
+    private String battery;
+    private String operatingSystem;
+    private Double weight;
+    private String color;
+	
+    private String[] imageUrl;
+	
+	
+//    @OneToOne(mappedBy = "laptop", cascade = CascadeType.ALL)
+//    private LaptopSpecification specification;
+//    
+//
+//    @OneToMany(mappedBy = "laptop", cascade = CascadeType.ALL)
+//    private List<LaptopImages> images;
+//
+//	
+
+}

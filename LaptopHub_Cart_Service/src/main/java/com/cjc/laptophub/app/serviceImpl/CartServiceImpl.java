@@ -1,0 +1,63 @@
+package com.cjc.laptophub.app.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cjc.laptophub.app.model.Cart;
+import com.cjc.laptophub.app.model.CartItem;
+import com.cjc.laptophub.app.repositoryI.CartRepositoryI;
+import com.cjc.laptophub.app.serviceI.CartServiceI;
+
+@Service
+public class CartServiceImpl implements CartServiceI 
+{
+	
+	@Autowired
+	CartRepositoryI crepo;
+
+	@Override
+	public Cart addToCart(int userId, int laptopId, int quantity) 
+	{
+		Optional<Cart> cart = crepo.findByUserId(userId);
+		  
+		if(cart.isPresent())
+		{
+			// If the user's cart is present in the database, retrieve the entire cart and add the new cart item to it;  
+			// otherwise, create a new cart for the user and add the new cart item to the newly created cart.
+			
+			Cart wholeCart = cart.get();	
+			
+			CartItem newCartItem = new CartItem();
+			
+			// Fetch the laptop details from the Product-Laptop-Service using the laptopId 
+			// and add the fetched laptop as a new cart item to the user's cart. 
+			
+			newCartItem.setLaptopId(laptopId);
+			
+			
+			List<CartItem> cartItemList = wholeCart.getCartItem();
+			
+			cartItemList.add(null)
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return null;
+	}
+
+}

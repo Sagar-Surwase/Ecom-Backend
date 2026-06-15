@@ -1,0 +1,10 @@
+package com.cjc.laptophub.app.repositoryI;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.cjc.laptophub.app.model.Category;
+
+public interface LaptopRepositoryI extends JpaRepository<Category, Integer>
+{
+
+}

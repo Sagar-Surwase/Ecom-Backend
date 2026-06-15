@@ -1,0 +1,119 @@
+package com.cjc.laptophub.app.serviceImpl;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cjc.laptophub.app.model.User;
+import com.cjc.laptophub.app.repositary.UserRepositoryI;
+import com.cjc.laptophub.app.service.UserServiceI;
+
+@Service
+public class UserServiceImpl implements UserServiceI
+{
+	
+	@Autowired
+	UserRepositoryI urepo;
+	
+	
+	@Override
+	public User getUserData(int id) 
+	{
+		Optional<User> dbId = urepo.findById(id);
+		
+		if(dbId.isPresent())
+		{
+			User dbUser = dbId.get();
+			
+			return dbUser;
+		}
+		
+		else
+		{
+			return null;
+		}
+
+	}
+
+
+	@Override
+	public User saveUserData(User user) 
+	{
+		user.setCreatedAt(LocalDateTime.now());
+		
+		User savedUser = urepo.save(user);
+		
+		return savedUser;
+	}
+
+
+	@Override
+	public String deleteUserData(int id) 
+	{
+		Optional<User> dbId = urepo.findById(id);
+		
+		if(dbId.isPresent())
+		{
+			urepo.deleteById(id);
+			
+			return "User data deleted successfully.";
+		}
+		else
+		{
+			return null;
+		}
+		
+	}
+
+
+	@Override
+	public User updateUserData(int id, User user)
+	{
+		Optional<User> dbId = urepo.findById(id);
+		
+		if(dbId.isPresent())
+		{
+			User dbUser = dbId.get();
+			
+			dbUser.setName(user.getName());
+			dbUser.setEmail(user.getEmail());
+			dbUser.setPassword(user.getPassword());
+			dbUser.setMobile(user.getMobile());
+			dbUser.setRole(user.getRole());
+			dbUser.setStatus(user.getStatus());
+			dbUser.setCreatedAt(LocalDateTime.now());
+			dbUser.setAddresses(user.getAddresses());
+			
+			User updatedUser = urepo.save(dbUser);
+			
+			return updatedUser;
+		}
+		
+		else
+		{			
+			return null;
+		}
+		
+
+	}
+
+
+	@Override
+	public User getUserByEmailAndPassword(String email, String password)
+	{
+		
+		User dbUser = urepo.findByEmailAndPassword(email, password);
+		
+		return dbUser;
+	}
+
+
+	@Override
+	public User[] getUserData() 
+	{
+		return urepo.findAll();;
+	}
+
+}
