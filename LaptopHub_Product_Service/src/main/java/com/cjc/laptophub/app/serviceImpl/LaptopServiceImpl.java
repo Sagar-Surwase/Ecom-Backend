@@ -31,7 +31,7 @@ public class LaptopServiceImpl implements LaptopServiceI
 		{
 			String dbCname = laptop.getCategory().getCname();
 			
-			if(dbCname.equals(cname))
+			if(dbCname.equalsIgnoreCase(cname))
 			{
 				categoryWiseAllLaptop.add(laptop);
 			}
@@ -45,6 +45,15 @@ public class LaptopServiceImpl implements LaptopServiceI
 	@Override
 	public Laptop saveLaptop(Laptop laptop) 
 	{
+		if(laptop.getStockQuantity() > 0)
+		{
+			laptop.setStatus("AVAILABLE");
+		}
+		else
+		{
+		    laptop.setStatus("OUT_OF_STOCK");
+		}
+			
 		Laptop dbLaptop = lrepo.save(laptop);
 		
 		return dbLaptop;
@@ -55,13 +64,23 @@ public class LaptopServiceImpl implements LaptopServiceI
 	{
 		Optional<Laptop> data = lrepo.findById(lId);
 		
-		if(data!=null) 
+		if(data.isPresent()) 
 		{
 			Laptop dbLaptop = data.get();
 			
 			dbLaptop.setLname(laptop.getLname());
 			dbLaptop.setPrice(laptop.getPrice());
 			dbLaptop.setStockQuantity(laptop.getStockQuantity());
+
+			if(dbLaptop.getStockQuantity() > 0)
+			{
+			    dbLaptop.setStatus("AVAILABLE");
+			}
+			else
+			{
+			    dbLaptop.setStatus("OUT_OF_STOCK");
+			}			
+			
 			dbLaptop.setStatus(laptop.getStatus());
 			dbLaptop.setProcessor(laptop.getProcessor());
 			dbLaptop.setRam(laptop.getRam());
@@ -155,6 +174,65 @@ public class LaptopServiceImpl implements LaptopServiceI
 
 	
 	
+	
+	@Override
+	public Laptop updateStock(int lId, int stockQuantity)
+	{
+	    Optional<Laptop> data = lrepo.findById(lId);
+
+	    if(data.isPresent())
+	    {
+	        Laptop dbLaptop = data.get();
+
+	        dbLaptop.setStockQuantity(stockQuantity);
+
+	        if(stockQuantity > 0)
+	        {
+	            dbLaptop.setStatus("AVAILABLE");
+	        }
+	        else
+	        {
+	            dbLaptop.setStatus("OUT_OF_STOCK");
+	        }
+
+	        return lrepo.save(dbLaptop);
+	    }
+
+	    return null;
+	}
+	
+	
+	
+	@Override
+	public Laptop reduceStock(int lId, int quantity)
+	{
+	    Optional<Laptop> data = lrepo.findById(lId);
+
+	    if(data.isPresent())
+	    {
+	        Laptop dbLaptop = data.get();
+
+	        int currentStock = dbLaptop.getStockQuantity();
+
+	        if(currentStock >= quantity)
+	        {
+	            dbLaptop.setStockQuantity(currentStock - quantity);
+
+	            if(dbLaptop.getStockQuantity() == 0)
+	            {
+	                dbLaptop.setStatus("OUT_OF_STOCK");
+	            }
+	            else
+	            {
+	                dbLaptop.setStatus("AVAILABLE");
+	            }
+
+	            return lrepo.save(dbLaptop);
+	        }
+	    }
+
+	    return null;
+	}
 	
 	
 	
