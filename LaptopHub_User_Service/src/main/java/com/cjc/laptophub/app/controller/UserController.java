@@ -55,7 +55,7 @@ public class UserController
 		{
 			//For Admin Login...
 			
-			if(dbUser.getEmail().equals("admin") && dbUser.getPassword().equals("admin") && dbUser.getRole().equals("admin"))			
+			if(dbUser.getRole().equalsIgnoreCase("admin"))		
 			{
 		        log.info("Admin logged in successfully.");
 				

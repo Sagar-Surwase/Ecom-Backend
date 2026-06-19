@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cjc.laptophub.app.model.Laptop;
 import com.cjc.laptophub.app.serviceI.LaptopServiceI;
@@ -22,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin("*")
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/product")
 public class LaptopController 
 {
@@ -34,6 +35,8 @@ public class LaptopController
 	@GetMapping("/category/{cname}/laptops")
 	public ResponseEntity<?> getCategorywiseLaptop(@PathVariable String cname )
 	{
+	    System.out.println("Category Received : " + cname);
+		
 		List<Laptop> allCategoriesedLaptop = lsi.getCategorywiseLaptop(cname);
 		
 		return new ResponseEntity<>(allCategoriesedLaptop, HttpStatus.OK);  
@@ -130,4 +133,49 @@ public class LaptopController
 	
 	
 	
+	@GetMapping("/stock/{lId}")
+	public ResponseEntity<?> viewStock(@PathVariable int lId)
+	{
+	    Laptop laptop = lsi.getSingleLaptop(lId);
+
+	    if(laptop != null)
+	    {
+	        return new ResponseEntity<>(
+	                "Available Stock : " + laptop.getStockQuantity(),
+	                HttpStatus.OK);
+	    }
+
+	    return new ResponseEntity<>("Laptop not found.", HttpStatus.NOT_FOUND);
+	}
+	
+	
+	
+	@PutMapping("/updateStock/{lId}/{stockQuantity}")
+	public ResponseEntity<?> updateStock(@PathVariable int lId,
+	                                     @PathVariable int stockQuantity)
+	{
+	    Laptop laptop = lsi.updateStock(lId, stockQuantity);
+
+	    if(laptop != null)
+	    {
+	        return new ResponseEntity<>(laptop, HttpStatus.OK);
+	    }
+
+	    return new ResponseEntity<>("Laptop not found.",
+	            HttpStatus.NOT_FOUND);
+	}
+	
+	
+	@PutMapping("/reduceStock/{lId}/{quantity}")
+	public ResponseEntity<?> reduceStock(@PathVariable int lId, @PathVariable int quantity)
+	{
+	    Laptop laptop = lsi.reduceStock(lId, quantity);
+
+	    if(laptop != null)
+	    {
+	        return new ResponseEntity<>(laptop, HttpStatus.OK);
+	    }
+
+	    return new ResponseEntity<>("Insufficient stock or laptop not found.", HttpStatus.BAD_REQUEST);
+	}
 }

@@ -22,5 +22,9 @@ public interface LaptopServiceI
 	public List<Laptop> getAllLaptop();
 
 	
+	public Laptop updateStock(int lId, int stockQuantity);
+
+	public Laptop reduceStock(int lId, int quantity);
+	
 
 }

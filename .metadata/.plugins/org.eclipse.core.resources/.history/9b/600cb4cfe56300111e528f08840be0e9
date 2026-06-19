@@ -1,5 +1,0 @@
-package com.cjc.laptophub.app.service;
-
-public interface UserServiceI {
-
-}
